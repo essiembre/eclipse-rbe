@@ -11,7 +11,7 @@ How to install
 
 Create a new update site in Eclipse with the following:
 
-* Site name:  ``ResourceBundle Editor`
+* Site name:  ``ResourceBundle Editor``
 * Site URL:   ``https://raw.githubusercontent.com/essiembre/eclipse-rbe/master/eclipse-rbe-update-site/site.xml``
 
 
