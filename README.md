@@ -18,4 +18,4 @@ Create a new update site in Eclipse with the following:
 **Manual Install:**
 
 Download the plugin jar and copy it to Eclipse plugins directory.  The jar lcation is (replace ``<version>``): 
-``https://raw.githubusercontent.com/essiembre/eclipse-rbe/master/eclipse-rbe-update-site/plugins/com.essiembre.eclipse.rbe_<version>.jar``.   Alternatively, you can download the entire Update Site from here and create a new update site in Eclipse, pointing to your local directory.
+``https://raw.githubusercontent.com/essiembre/eclipse-rbe/master/eclipse-rbe-update-site/plugins/com.essiembre.eclipse.rbe_<version>.jar``.   Alternatively, you can download the entire Update Site bundled with everything else in the release link above and create a new update site in Eclipse, pointing to your local directory where you expanded the release.
