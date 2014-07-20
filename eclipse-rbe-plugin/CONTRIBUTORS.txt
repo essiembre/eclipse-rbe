@@ -1,0 +1,50 @@
+Pascal Essiembre (pascal@essiembre.com)
+    Developer, creator and maintainer of this library.
+
+Paul Henshaw
+    Developer.
+
+Eric Fettweis (ericfettweis@users.sourceforge.net)
+    Developer.
+
+Daniel Kasmeroglu (Daniel.Kasmeroglu@Kasisoft.net)
+    Developer.
+
+Nicholas You
+    Chinese translator.
+
+Mauricio Gracia Guti�rrez (mauriciogracia@users.sourceforge.net)
+    Spanish translator.
+
+Stefan J. Morgenroth (dandra@users.sf.net)    
+    German translator.
+
+Morten Steinhauer (msteinha@users.sourceforge.net)
+    Norwegian translator.
+
+Mitsuhiro Okamoto (m_okamoto@users.sourceforge.net)
+    Japanese translator.
+
+Alessandro Falappa (alessandro@falappa.net)
+"mauromol" (mauromol@users.sourceforge.net)
+    Italian translator.
+
+Antonio Edson Ceccon (cecconae@ig.com.br)
+    Portuguese (Brazilian)
+
+Vladimir Dolzhenko (bob_marlin@users.sourceforge.net)
+    Developer (bug fixes)
+    
+Alexander Bieber (fleque@users.sourceforge.net)
+    Developer
+    
+Tobias Langner (nl_carnage@users.sourceforge.net)
+    Developer
+    
+Uwe Voigt (http://sourceforge.net/users/uwe_ewald/)
+    Developer (patch-contribution)
+    
+https://sourceforge.net/users/cuhiodtick
+    Developer
+        
+BIG THANKS TO ALL!!!

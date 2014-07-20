@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="com.essiembre.eclipse.rbe.resourceFactory" name="resourceFactory" schema="schema/resourceFactory.exsd"/>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="%editor.rbe"
+            icon="icons/propertiesfile.gif"
+            extensions="properties"
+            class="com.essiembre.eclipse.rbe.ui.editor.ResourceBundleEditor"
+            contributorClass="com.essiembre.eclipse.rbe.ui.editor.ResourceBundleEditorContributor"
+            id="com.essiembre.eclipse.rbe.ui.editor.ResourceBundleEditor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="%wizard.rb"
+            id="com.essiembre.eclipse.i18n.resourcebundle">
+      </category>
+      <wizard
+            name="ResourceBundle"
+            icon="icons/resourcebundle.gif"
+            category="com.essiembre.eclipse.i18n.resourcebundle"
+            class="com.essiembre.eclipse.rbe.ui.wizards.ResourceBundleWizard"
+            id="com.essiembre.eclipse.rbe.ui.wizards.ResourceBundleWizard">
+            <description> 
+               %wizard.description 
+            </description> 
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            name="%editor.rbe"
+            class="com.essiembre.eclipse.rbe.ui.preferences.RBEGeneralPrefPage"
+            id="com.essiembre.eclipse.rbe.ui.preferences.RBEGeneralPrefPage">
+      </page>
+      <page
+            class="com.essiembre.eclipse.rbe.ui.preferences.RBEFormattingPrefPage"
+            category="com.essiembre.eclipse.rbe.ui.preferences.RBEGeneralPrefPage"
+            name="%prefs.formatting"
+            id="com.essiembre.eclipse.rbe.ui.preferences.RBEFormattingPrefPage"/>
+      <page
+            class="com.essiembre.eclipse.rbe.ui.preferences.RBEReportingPrefPage"
+            category="com.essiembre.eclipse.rbe.ui.preferences.RBEGeneralPrefPage"
+            name="%prefs.performance"
+            id="com.essiembre.eclipse.rbe.ui.preferences.RBEReportingPrefPage"/>
+   </extension>
+   
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.essiembre.eclipse.rbe.ui.preferences.RBEPreferenceInitializer">
+      </initializer>
+   </extension>
+
+   <extension
+         point="com.essiembre.eclipse.rbe.resourceFactory">
+      <factory
+            class="com.essiembre.eclipse.rbe.ui.editor.resources.StandardResourceFactory"
+            order="9999">
+      </factory>
+      <factory
+            class="com.essiembre.eclipse.rbe.ui.editor.resources.FragmentResourceFactory"
+            order="1">
+      </factory>
+      <factory
+            class="com.essiembre.eclipse.rbe.ui.editor.resources.NLResourceFactory"
+            order="2">
+      </factory>
+   </extension>
+
+   <extension point="org.eclipse.ui.themes">
+    <themeElementCategory
+        id="com.essiembre.eclipse.rbe.ui.preferences.themeElementCategory"
+        label="Resource Bundle Editor">
+    </themeElementCategory>
+    <fontDefinition
+        categoryId="com.essiembre.eclipse.rbe.ui.preferences.themeElementCategory"
+        id="com.essiembre.eclipse.rbe.ui.preferences.fontDefinition"
+        label="Properties editor font"
+        defaultsTo="org.eclipse.jface.textfont">
+        <description>
+            The font for the editors on the properties tab
+        </description>
+    </fontDefinition>
+  </extension>
+</plugin>
