@@ -219,7 +219,7 @@
    </license>
 
    <url>
-      <update label="ResourceBundle Editor Update Site" url="http://todo"/>
+      <update label="ResourceBundle Editor Update Site" url="https://raw.githubusercontent.com/essiembre/eclipse-rbe/master/eclipse-rbe-update-site/site.xml"/>
    </url>
 
    <requires>
