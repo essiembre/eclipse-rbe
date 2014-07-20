@@ -1,6 +1,6 @@
 Here is an overview of changes for each release:
 
-Release 1.0.0 (2014-??-??)
+Release 1.0.0 (2014-07-20)
 --------------------------
 - License change from LGPL to Apache License v2.
 - Now requires Java 7 or higher.
