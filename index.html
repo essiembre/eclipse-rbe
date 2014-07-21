@@ -5,10 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/print.css" media="print" />
 
+    <link rel="stylesheet" type="text/css" href="css/lightbox.css" media="screen" />
+	<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="js/lightbox.min.js"></script>
+	
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -36,18 +40,42 @@
 <p>It is licensed under Apache License 2.0 and you are free to use it in any of your multi-lingual projects.  </p>
 
 <h3>
-<a name="update-site" class="anchor" href="#update-site"><span class="octicon octicon-link"></span></a>Update Site:</h3>
+<a name="screenshots" class="anchor" href="#screenshots"><span class="octicon octicon-link"></span></a>Screenshots</h3>
+
+<p>
+<a href="img/screenshots/main-screen.png" data-lightbox="screenshots" title="The ResourceBundle Editor in action on itself!">
+    <img src="img/screenshots/main-screen.png" style="width:18%;"></a>
+<a href="img/screenshots/wizard.png" data-lightbox="screenshots" title="Use the ResourceBundle Wizard to create new resource bundles.">
+    <img src="img/screenshots/wizard.png" style="width:18%;"></a>
+<a href="img/screenshots/preferences-general.png" data-lightbox="screenshots" title="General preferences.">
+    <img src="img/screenshots/preferences-general.png" style="width:18%;"></a>
+<a href="img/screenshots/preferences-formatting.png" data-lightbox="screenshots" title="Formatting preferences.">
+    <img src="img/screenshots/preferences-formatting.png" style="width:18%;"></a>
+<a href="img/screenshots/preferences-performance.png" data-lightbox="screenshots" title="Preferences affecting performance.">
+    <img src="img/screenshots/preferences-performance.png" style="width:18%;"></a>
+
+</p>
+<p style="text-align: center;">(Click on an image to expand it.)</p>
+
+<h3>
+<a name="update-site" class="anchor" href="#update-site"><span class="octicon octicon-link"></span></a>Update Site</h3>
 
 <p>Create a new update site in Eclipse with the following:</p>
+<small>
+<ul>
+  <li><b>Site name:</b> ResourceBundle Editor</li>
+  <li><b>Site URL:&nbsp;&nbsp;</b> https://raw.githubusercontent.com/essiembre/eclipse-rbe/master/eclipse-rbe-update-site/site.xml</li>
+</ul>
+</small>
+
+<h3>
+<a name="manual-install" class="anchor" href="#manual-install"><span class="octicon octicon-link"></span></a>Manual Install</h3>
+
+<p>Download the plugin jar and copy it to Eclipse plugins directory. The jar lcation is (replace <code>&lt;version&gt;</code>): 
 
 <ul>
-<li>Site name: ResourceBundle Editor</li>
-<li>Site URL: <a href="https://raw.githubusercontent.com/essiembre/eclipse-rbe/master/eclipse-rbe-update-site/site.xml">https://raw.githubusercontent.com/essiembre/eclipse-rbe/master/eclipse-rbe-update-site/site.xml</a>
-</li>
-</ul><h3>
-<a name="manual-install" class="anchor" href="#manual-install"><span class="octicon octicon-link"></span></a>Manual Install:</h3>
-
-<p>Download the plugin jar and copy it to Eclipse plugins directory. The jar lcation is (replace ): <a href="https://raw.githubusercontent.com/essiembre/eclipse-rbe/master/eclipse-rbe-update-site/plugins/com.essiembre.eclipse.rbe_">https://raw.githubusercontent.com/essiembre/eclipse-rbe/master/eclipse-rbe-update-site/plugins/com.essiembre.eclipse.rbe_</a>.jar. </p>
+  <li><small>https://raw.githubusercontent.com/essiembre/eclipse-rbe/master/eclipse-rbe-update-site/plugins/com.essiembre.eclipse.rbe_<code>&lt;version&gt;</code>.jar</small>.</li>
+</ul>
 
 <p>You can download the entire Update Site bundled with everything else in the above compressed package and create a new update site in Eclipse, pointing to your local directory where you expanded the package.</p>
 
