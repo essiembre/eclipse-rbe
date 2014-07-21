@@ -4,8 +4,9 @@ ResourceBundle Editor
 Eclipse plugin for editing Java resource bundles. Lets you manage all localized .properties files in one screen. Some features: sorted keys, warning icons on missing keys/values, conversion to/from Unicode, hierarchical view of keys, and more.
 
 
-Go to ResourceBundle Editor web site for **screenshots** and more: http://essiembre.github.io/eclipse-rbe/
+<img src="http://essiembre.github.io/eclipse-rbe/img/screenshots/main-screen.png">
 
+Go to ResourceBundle Editor web site for more screenshots and other information: http://essiembre.github.io/eclipse-rbe/
 
 
 How to install
