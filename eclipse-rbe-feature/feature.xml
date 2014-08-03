@@ -2,7 +2,7 @@
 <feature
       id="com.essiembre.eclipse.rbe"
       label="ResourceBundle Editor"
-      version="1.0.1"
+      version="1.0.2"
       provider-name="Pascal Essiembre"
       plugin="com.essiembre.eclipse.rbe">
 
@@ -237,7 +237,7 @@
          id="com.essiembre.eclipse.rbe"
          download-size="0"
          install-size="0"
-         version="1.0.1"
+         version="1.0.2"
          unpack="false"/>
 
 </feature>
