@@ -17,6 +17,8 @@ package com.essiembre.eclipse.rbe.model.bundle;
 
 import java.util.Iterator;
 
+import org.eclipse.core.runtime.Platform;
+
 import com.essiembre.eclipse.rbe.model.workbench.RBEPreferences;
 
 /**
@@ -41,8 +43,10 @@ public final class PropertiesGenerator {
     private static final String SPECIAL_KEY_SAVE_CHARS = "=\t\f#!: ";
     
     /** System line separator. */
-    private static final String SYSTEM_LINE_SEP = 
-            System.getProperty("line.separator");
+	private static final String SYSTEM_LINE_SEP = Platform
+			.getPreferencesService().getString("org.eclipse.core.runtime",
+					"line.separator", System.getProperty("line.separator"),
+					null);
     /** Forced line separators. */
     private static final String[] FORCED_LINE_SEP = new String[3];
     static {
