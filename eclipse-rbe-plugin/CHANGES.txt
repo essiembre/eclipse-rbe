@@ -1,5 +1,9 @@
 Here is an overview of changes for each release:
 
+Release 1.0.2 (2014-08-03)
+--------------------------
+- Fixed the line break ending the eclipse properties editor line seperator.
+
 Release 1.0.1 (2014-07-22)
 --------------------------
 - Update: re-introduce Eclipse Properties editors for locale-specific 
