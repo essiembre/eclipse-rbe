@@ -78,6 +78,8 @@ public class RBEGeneralPrefPage extends AbstractRBEPrefPage {
       prefs.setValue(RBEPreferences.CONVERT_ENCODED_TO_UNICODE, 
               convertEncodedToUnicode.getSelection());
       prefs.setValue(RBEPreferences.SUPPORT_NL, supportNL.getSelection());
+      prefs.setValue(RBEPreferences.SUPPORT_FRAGMENTS, supportFragments.getSelection());
+      prefs.setValue(RBEPreferences.LOAD_ONLY_FRAGMENT_RESOURCES, loadOnlyFragmentResources.getSelection());
       prefs.setValue(RBEPreferences.KEY_TREE_HIERARCHICAL, 
               keyTreeHierarchical.getSelection());
       prefs.setValue(RBEPreferences.KEY_TREE_EXPANDED, 
@@ -130,15 +132,14 @@ public class RBEGeneralPrefPage extends AbstractRBEPrefPage {
       // Support loading resources from fragment 
       field = createFieldComposite(composite);
       supportFragments = new Button(field, SWT.CHECK);
-      supportFragments.setSelection(RBEPreferences.getSupportFragments());
+      supportFragments.setSelection(prefs.getBoolean(RBEPreferences.SUPPORT_FRAGMENTS));
       new Label(field, SWT.NONE).setText(
               RBEPlugin.getString("prefs.supportFragments"));
 
       // Support loading resources from fragment 
       field = createFieldComposite(composite);
       loadOnlyFragmentResources = new Button(field, SWT.CHECK);
-      loadOnlyFragmentResources.setSelection(
-              RBEPreferences.getLoadOnlyFragmentResources());
+      loadOnlyFragmentResources.setSelection(prefs.getBoolean(RBEPreferences.LOAD_ONLY_FRAGMENT_RESOURCES));
       new Label(field, SWT.NONE).setText(
               RBEPlugin.getString("prefs.loadOnlyFragmentResources"));
 
