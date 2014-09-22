@@ -104,7 +104,7 @@ public class KeyTreeLabelProvider
         groupFontKey.dispose();
         groupFontNoKey.dispose();
         keyFont.dispose();
-        colorCommented.dispose();
+//        colorCommented.dispose();
     }
 
     @Override
