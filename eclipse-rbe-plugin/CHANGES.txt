@@ -1,5 +1,11 @@
 Here is an overview of changes for each release:
 
+Release 1.0.4 (2014-10-12)
+--------------------------
+- Removed hard-coding of white color for editor text field value (github #11).
+- Fixed breaking Eclipse features by wrongly disposing of a system color
+  (github #12).
+
 Release 1.0.3 (2014-08-07)
 --------------------------
 - Fixed saving of fragment-related plugin preferences.
