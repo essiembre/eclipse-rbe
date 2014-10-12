@@ -44,7 +44,6 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
@@ -238,7 +237,7 @@ public class BundleEntryComposite extends Composite {
             commentedCheckbox.setEnabled(!sourceEditor.isReadOnly());
             textBox.setEnabled(!sourceEditor.isReadOnly());
             textBox.setEditable(true);
-            textBox.setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
+//            textBox.setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
             gotoButton.setEnabled(true);
             if (RBEPreferences.getReportDuplicateValues()) {
                 findDuplicates(bundleEntry);
@@ -259,7 +258,7 @@ public class BundleEntryComposite extends Composite {
             duplButton.setVisible(false);
             simButton.setVisible(false);
             textBox.setEditable(false);
-            textBox.setBackground(new Color(getDisplay(), 245, 245, 245));
+//            textBox.setBackground(new Color(getDisplay(), 245, 245, 245));
         }
         
         textViewer.setDocument(document);        
