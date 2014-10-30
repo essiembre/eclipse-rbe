@@ -109,6 +109,10 @@ public final class PropertiesGenerator {
                     value = value.replaceAll("\r", "\\\\r");
                     value = value.replaceAll("\n", "\\\\n");
                 }
+
+                // handle tabs in value
+                value = value.replaceAll(
+                        "\t", "\\\\t"); //$NON-NLS-1$ //$NON-NLS-2$
             } else {
                 value = "";
             }
