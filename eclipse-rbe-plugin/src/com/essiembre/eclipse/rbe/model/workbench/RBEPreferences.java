@@ -134,6 +134,12 @@ public final class RBEPreferences {
     
     public static final String MIN_HEIGHT = "minHeight";
 //    public static final String AUTO_ADJUST = "autoAdjust";                               
+    
+    /** Alpha-numeric sorting for keys. */
+    public static final String ALPHA_NUMERIC_SORT_FOR_KEYS = "alphaNumericSortForKeys"; //$NON-NLS-1$
+    
+    /** Case-insensitive sorting for keys. */
+    public static final String IGNORE_CASE_FOR_KEYS = "ignoreCaseForKeys"; //$NON-NLS-1$
 
     
     public static final String PREFERENCE_ID = "eclipse-rbe-preferences";
@@ -357,7 +363,24 @@ public final class RBEPreferences {
         return PREFS.getBoolean(FORCE_NEW_LINE_TYPE);
     }
 
-    
+    /**
+     * Gets whether we want keys to be sorted lexicographically
+     * or alpha-numerically in the tree and when generating bundle.
+     * @return <code>true</code> if alpha-numerical sort is used
+     */
+    public static boolean getAlphaNumericSortForKeys() {
+        return PREFS.getBoolean(ALPHA_NUMERIC_SORT_FOR_KEYS);
+    }
+
+    /**
+     * Gets whether we want case to be ignored when sorting keys both in the tree
+     * and when generating bundle.
+     * @return <code>true</code> if alpha-numerical sort should be case-insensitive
+     */
+    public static boolean getIgnoreCaseForKeys() {
+        return PREFS.getBoolean(IGNORE_CASE_FOR_KEYS);
+    }
+
     //--- Reporting/Performance ------------------------------------------------
 
     /**

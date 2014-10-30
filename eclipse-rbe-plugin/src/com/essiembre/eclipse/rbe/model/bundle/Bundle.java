@@ -16,6 +16,7 @@
 package com.essiembre.eclipse.rbe.model.bundle;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -25,6 +26,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import com.essiembre.eclipse.rbe.model.Model;
+import com.essiembre.eclipse.rbe.model.utils.AlphaNumericComparator;
+import com.essiembre.eclipse.rbe.model.workbench.RBEPreferences;
 
 
 /**
@@ -213,7 +216,19 @@ public class Bundle extends Model implements IBundleVisitable {
      * @return resource bundle keys
      */
     public Set<String> getKeys() {
-        Set<String> keys = new TreeSet<String>();
+        // Comparator used to sort resource bundle keys for this bundle.
+        Comparator<String> comparator = null;
+        if (RBEPreferences.getAlphaNumericSortForKeys()) {
+            comparator = new AlphaNumericComparator<String>(!RBEPreferences.getIgnoreCaseForKeys());
+        } else if (RBEPreferences.getIgnoreCaseForKeys()) {
+            comparator = new Comparator<String>() {
+                @Override
+                public int compare(String o1, String o2) {
+                    return o1.compareToIgnoreCase(o2);
+                }
+            };
+        }
+        Set<String> keys = new TreeSet<String>(comparator);
         keys.addAll(entries.keySet());
         return keys;
         //        return Collections.unmodifiableSet(keys);
