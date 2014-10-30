@@ -53,7 +53,7 @@ public class WordCountAnalyzer implements ProximityAnalyzer {
      *         #analyse(java.lang.Object, java.lang.Object)
      */
     public double analyse(Object obj1, Object obj2) {
-        if (obj2 == null || obj2 == null) {
+        if (obj1 == null || obj2 == null) {
             return 0;
         }
         
