@@ -191,7 +191,7 @@ public class KeyTreeItem implements Comparable<KeyTreeItem>, IKeyTreeVisitable {
     /**
      * Returns whether this node while be visible under the given 
      * <code>filter</code> string. To determine this, 
-     * a simple substring-check on the id is applied.<br />
+     * case insensitive contains is used.<br />
      * A node is marked visible if either its <code>id</code> contains the 
      * filter string or at least one of its child
      * nodes is visible. The visibility information is saved until the next 
@@ -203,8 +203,9 @@ public class KeyTreeItem implements Comparable<KeyTreeItem>, IKeyTreeVisitable {
      * the given filter.
      */
     public boolean applyFilter(String filter) {
+    	if (filter == null) return true;
         visible = false;
-        if (id.indexOf(filter) != -1) {
+        if (id.toLowerCase().contains(filter.toLowerCase())) {
             visible = true;
         }
         for (KeyTreeItem child : children) {
