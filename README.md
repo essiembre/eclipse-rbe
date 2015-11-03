@@ -1,6 +1,8 @@
 ResourceBundle Editor
 ===========
 
+[![Join the chat at https://gitter.im/essiembre/eclipse-rbe](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/essiembre/eclipse-rbe?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 > **[Collaborators wanted!](https://github.com/essiembre/eclipse-rbe/issues/35)**
 
 Eclipse plugin for editing Java resource bundles. Lets you manage all localized .properties files in one screen. Some features: sorted keys, warning icons on missing keys/values, conversion to/from Unicode, hierarchical view of keys, and more.
