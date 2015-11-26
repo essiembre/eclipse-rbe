@@ -21,9 +21,11 @@
 package com.essiembre.eclipse.rbe.ui.editor.resources;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -156,9 +158,10 @@ public class FragmentResourceFactory extends NLResourceFactory {
                                         this.getClass());
                 if (parentFactory != null) {
                     SourceEditor[] parentEditors = 
-                            parentFactory.getSourceEditors();                    
+                            parentFactory.getSourceEditors();                 
+                    Set<Locale> fragmentLocales = getFragmentLocales(fragmentEditors);
                     for (int i = 0; i < parentEditors.length; i++) {
-                        if (parentEditors[i].getLocale() != null) {
+                        if (!fragmentLocales.contains(parentEditors[i].getLocale())) {
                             editors.add(parentEditors[i]);
                         }
                     }
@@ -167,7 +170,15 @@ public class FragmentResourceFactory extends NLResourceFactory {
         }
     }
 
-    private List<SourceEditor> loadFragmentEditors(
+	private Set<Locale> getFragmentLocales(List<SourceEditor> fragmentEditors) {
+		Set<Locale> locales = new HashSet<>();
+		for (SourceEditor editor : fragmentEditors) {
+			locales.add(editor.getLocale());
+		}
+		return locales;
+	}
+
+	private List<SourceEditor> loadFragmentEditors(
             IEditorSite site, final String regex, IResource folder) 
                     throws CoreException, PartInitException {
         List<SourceEditor> fragmentEditors = new ArrayList<>();
