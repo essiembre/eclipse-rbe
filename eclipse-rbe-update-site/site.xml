@@ -18,6 +18,9 @@
    <feature url="features/com.essiembre.eclipse.rbe_1.0.4.jar" id="com.essiembre.eclipse.rbe" version="1.0.4">
       <category name="com.essiembre.eclipse.rbe"/>
    </feature>
+   <feature url="features/com.essiembre.eclipse.rbe_1.0.5.jar" id="com.essiembre.eclipse.rbe" version="1.0.5">
+      <category name="com.essiembre.eclipse.rbe"/>
+   </feature>
    <category-def name="com.essiembre.eclipse.rbe" label="Resource Bundle Editor">
       <description>
          Eclipse plugin for editing Java resource bundles. Lets you manage all localized properties files in one screen. Some features: sorted keys, warning icons on missing keys/values, conversion to/from Unicode, hierarchical view of keys, more...
