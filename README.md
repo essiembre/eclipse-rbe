@@ -17,7 +17,7 @@ How to install
 
 **Marketplace:**
 
-*just drag to install*
+*just drag to install* - you have to drag the image below to your Eclipse workspace
 
 <a href="http://marketplace.eclipse.org/marketplace-client-intro?mpc_install=2628188" class="drag" title="Drag to your running Eclipse workspace to install ResourceBundle Editor"><img src="https://marketplace.eclipse.org/sites/all/themes/solstice/_themes/solstice_marketplace/public/images/btn-install.png" alt="Drag to your running Eclipse workspace to install ResourceBundle Editor" /></a>
 
