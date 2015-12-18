@@ -30,8 +30,10 @@ import com.essiembre.eclipse.rbe.model.workbench.RBEPreferences;
 
 /**
  * Plugin generic preference page.
+ * 
  * @author Pascal Essiembre
  * @author cuhiodtick
+ * @author k0ner
  */
 public class RBEGeneralPrefPage extends AbstractRBEPrefPage {
 
@@ -51,11 +53,7 @@ public class RBEGeneralPrefPage extends AbstractRBEPrefPage {
 
    private Button noTreeInEditor;
 
-//   private Button autoAdjust;
-   private Text   _minHeight;
-
-//   private Font   _boldFont;
-
+   private Text minHeight;
 
    /**
     * Constructor.
@@ -67,7 +65,6 @@ public class RBEGeneralPrefPage extends AbstractRBEPrefPage {
    @Override
    public void dispose() {
       super.dispose();
-//      _boldFont.dispose();
    }
 
    @Override
@@ -88,10 +85,8 @@ public class RBEGeneralPrefPage extends AbstractRBEPrefPage {
               fieldTabInserts.getSelection());
       prefs.setValue(RBEPreferences.NO_TREE_IN_EDITOR, 
               noTreeInEditor.getSelection());
-      prefs.setValue(RBEPreferences.MIN_HEIGHT, _minHeight.getText());
-//      prefs.setValue(RBEPreferences.AUTO_ADJUST, autoAdjust.getSelection());
+      prefs.setValue(RBEPreferences.MIN_HEIGHT, minHeight.getText());
 
-      refreshEnabledStatuses();
       return super.performOk();
    }
 
@@ -113,6 +108,7 @@ public class RBEGeneralPrefPage extends AbstractRBEPrefPage {
       keyGroupSeparator.setText(
               prefs.getString(RBEPreferences.KEY_GROUP_SEPARATOR));
       keyGroupSeparator.setTextLimit(2);
+      setWidthInChars(keyGroupSeparator, 2);
 
       // Convert encoded to unicode?
       field = createFieldComposite(composite);
@@ -174,33 +170,16 @@ public class RBEGeneralPrefPage extends AbstractRBEPrefPage {
       new Label(field, SWT.NONE).setText(
               RBEPlugin.getString("prefs.noTreeInEditor"));
 
-//      Label desc = new Label(composite, SWT.READ_ONLY);
-//      desc.setText(RBEPlugin.getString("prefs.properties-desc"));
-//      _boldFont = UIUtils.createFont(desc, SWT.BOLD);
-//      desc.setFont(_boldFont);
-
-//      field = createFieldComposite(composite);
-////      autoAdjust = new Button(field, SWT.CHECK);
-////      autoAdjust.setSelection(prefs.getBoolean(RBEPreferences.AUTO_ADJUST));
-//      new Label(field, SWT.NONE).setText(
-//              RBEPlugin.getString("prefs.autoAdjust"));
-//      autoAdjust.addSelectionListener(new SelectionAdapter() {
-//         public void widgetSelected(SelectionEvent event) {
-//             refreshEnabledStatuses();
-//         }
-//     });
-
       field = createFieldComposite(composite);
       new Label(field, SWT.NONE).setText(
               RBEPlugin.getString("prefs.minHeight"));
-      _minHeight = new Text(field, SWT.BORDER);
-      _minHeight.setText(prefs.getString(RBEPreferences.MIN_HEIGHT));
-      _minHeight.setTextLimit(3);
-      setWidthInChars(_minHeight, 3);
-      _minHeight.addKeyListener(new IntTextValidatorKeyListener(
+      minHeight = new Text(field, SWT.BORDER);
+      minHeight.setText(prefs.getString(RBEPreferences.MIN_HEIGHT));
+      minHeight.setTextLimit(3);
+      setWidthInChars(minHeight, 3);
+      minHeight.addKeyListener(new IntTextValidatorKeyListener(
               RBEPlugin.getString("prefs.minHeight.error")));        
 
-      refreshEnabledStatuses();
       return composite;
    }
 
@@ -220,18 +199,10 @@ public class RBEGeneralPrefPage extends AbstractRBEPrefPage {
               prefs.getDefaultBoolean(RBEPreferences.KEY_TREE_EXPANDED));
       fieldTabInserts.setSelection(
               prefs.getDefaultBoolean(RBEPreferences.FIELD_TAB_INSERTS));
-//      autoAdjust.setSelection(
-//              prefs.getDefaultBoolean(RBEPreferences.AUTO_ADJUST));
-      _minHeight.setText(
+      minHeight.setText(
               prefs.getDefaultString(RBEPreferences.MIN_HEIGHT));
 
-      refreshEnabledStatuses();
       super.performDefaults();
-   }
-
-   private void refreshEnabledStatuses() {
-//      boolean isAutoAdjust = autoAdjust.getSelection();
-//      _minHeight.setEnabled(!isAutoAdjust);
    }
 
 }
