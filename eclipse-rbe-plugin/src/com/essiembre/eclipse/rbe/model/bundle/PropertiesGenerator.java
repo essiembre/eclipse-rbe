@@ -92,7 +92,7 @@ public final class PropertiesGenerator {
             BundleEntry bundleEntry = bundle.getEntry(iter.next());
             String key = bundleEntry.getKey();
             String value = bundleEntry.getValue(); 
-            String comment = bundleEntry.getComment();    
+            String comment = bundleEntry.getComment();   
             
             if (value != null){
                 // escape backslashes
@@ -139,6 +139,14 @@ public final class PropertiesGenerator {
                 appendKey(text, key, equalIndex, bundleEntry.isCommented());
                 appendValue(text, value, equalIndex, bundleEntry.isCommented());
                 text.append(lineBreak);
+            }
+            
+            // if no grouping is to be done and we are to keep the original key order 
+            // then we also preserve the line breaks of the original file. 
+            if (!RBEPreferences.getGroupKeys() && RBEPreferences.getKeepOriginalKeyOrder()) {
+                for (int i = 0; i < bundleEntry.getNewlines(); i++) {
+                	text.append(lineBreak);
+                }
             }
         }
         return text.toString();

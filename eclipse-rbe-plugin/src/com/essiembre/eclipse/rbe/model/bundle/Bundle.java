@@ -156,7 +156,7 @@ public class Bundle extends Model implements IBundleVisitable {
         BundleEntry entry = (BundleEntry) entries.get(key);
         if (entry != null) {
             BundleEntry newEntry = new BundleEntry(
-                    key, entry.getValue(), entry.getComment(), true);
+                    key, entry.getValue(), entry.getComment(), true, 0);
             addEntry(newEntry);
         }
     }
@@ -168,7 +168,7 @@ public class Bundle extends Model implements IBundleVisitable {
         BundleEntry entry = (BundleEntry) entries.get(key);
         if (entry != null) {
             BundleEntry newEntry = new BundleEntry(
-                    key, entry.getValue(), entry.getComment(), false);
+                    key, entry.getValue(), entry.getComment(), false, 0);
             addEntry(newEntry);
         }
     }

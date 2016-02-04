@@ -169,7 +169,8 @@ public class BundleEntryComposite extends Composite {
                         activeKey, 
                         textViewer.getDocument().get(), 
                         comment, 
-                        commentedSelected));
+                        commentedSelected,
+                        entry.getNewlines()));
             }
         }
     }

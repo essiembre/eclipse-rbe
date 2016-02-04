@@ -35,6 +35,9 @@ public final class BundleEntry implements IBundleVisitable {
     private String value;
     /** Associated bundle (parent). */
     private Bundle bundle;
+    
+    /** The number of newline characters following the entry. */
+    private int newlines = 0;
 
     /**
      * Constructor.  Keys and value are <code>null</code> safe.
@@ -43,8 +46,7 @@ public final class BundleEntry implements IBundleVisitable {
      * @param comment entry comment
      * @param commented if this whole entry is considered commented out
      */
-    public BundleEntry(
-            String key, String value, String comment, boolean commented) {
+    public BundleEntry(String key, String value, String comment, boolean commented, final int newlines) {
         super();
         this.key = key;
         this.value = value;
@@ -56,6 +58,7 @@ public final class BundleEntry implements IBundleVisitable {
             this.value = "";
         }
         this.commented = commented;
+        this.newlines = newlines;
     }
 
     
@@ -66,7 +69,7 @@ public final class BundleEntry implements IBundleVisitable {
      * @param comment entry comment
      */
     public BundleEntry(String key, String value, String comment) {
-        this(key, value, comment, false);
+        this(key, value, comment, false, 0);
     }
 
     /**
@@ -142,6 +145,18 @@ public final class BundleEntry implements IBundleVisitable {
         this.locale = locale;
     }
     
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
+		result = prime * result + (commented ? 1231 : 1237);
+		result = prime * result + ((key == null) ? 0 : key.hashCode());
+		result = prime * result + newlines;
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		return result;
+	}
+
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
@@ -155,7 +170,8 @@ public final class BundleEntry implements IBundleVisitable {
                 && value.equals(entry.getValue())
                 && (comment == null && entry.getComment() == null
                         || comment != null && comment.equals(
-                                entry.getComment()));
+                                entry.getComment()))
+                && newlines == entry.getNewlines();
     }
     
     
@@ -168,6 +184,19 @@ public final class BundleEntry implements IBundleVisitable {
                 + "][value=" + value
                 + "][comment=" + comment
                 + "][commented=" + commented
-                + "][locale=" + locale + "]]";
+                + "][locale=" + locale 
+                + "][newlines=" + newlines + "]]";
     }
+
+	/** A call to this method tells us that one more newline character goes after this entry. */
+	public void addNewLine() {
+		newlines++;
+	}
+	
+	/**
+	 * @return the number of newline characters following the entry.
+	 */
+	public int getNewlines() {
+		return newlines;
+	}
 }
