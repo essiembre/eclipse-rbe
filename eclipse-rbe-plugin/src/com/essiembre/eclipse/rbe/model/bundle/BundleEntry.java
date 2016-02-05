@@ -15,6 +15,9 @@
  */
 package com.essiembre.eclipse.rbe.model.bundle;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -36,8 +39,8 @@ public final class BundleEntry implements IBundleVisitable {
     /** Associated bundle (parent). */
     private Bundle bundle;
     
-    /** The number of newline characters following the entry. */
-    private int newlines = 0;
+    /** Any unsupported lines following the entry. */
+    private final List<String> unsupportedLines = new LinkedList<>();
 
     /**
      * Constructor.  Keys and value are <code>null</code> safe.
@@ -45,8 +48,10 @@ public final class BundleEntry implements IBundleVisitable {
      * @param value entry value
      * @param comment entry comment
      * @param commented if this whole entry is considered commented out
+     * @param unsupportedLines any lines following the entry
      */
-    public BundleEntry(String key, String value, String comment, boolean commented, final int newlines) {
+    public BundleEntry(String key, String value, String comment, boolean commented, 
+    		final List<String> unsupportedLines) {
         super();
         this.key = key;
         this.value = value;
@@ -58,7 +63,7 @@ public final class BundleEntry implements IBundleVisitable {
             this.value = "";
         }
         this.commented = commented;
-        this.newlines = newlines;
+        this.unsupportedLines.addAll(unsupportedLines);
     }
 
     
@@ -69,7 +74,7 @@ public final class BundleEntry implements IBundleVisitable {
      * @param comment entry comment
      */
     public BundleEntry(String key, String value, String comment) {
-        this(key, value, comment, false, 0);
+        this(key, value, comment, false, Collections.emptyList());
     }
 
     /**
@@ -152,7 +157,7 @@ public final class BundleEntry implements IBundleVisitable {
 		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
 		result = prime * result + (commented ? 1231 : 1237);
 		result = prime * result + ((key == null) ? 0 : key.hashCode());
-		result = prime * result + newlines;
+		result = prime * result + unsupportedLines.hashCode();
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
 	}
@@ -171,7 +176,7 @@ public final class BundleEntry implements IBundleVisitable {
                 && (comment == null && entry.getComment() == null
                         || comment != null && comment.equals(
                                 entry.getComment()))
-                && newlines == entry.getNewlines();
+                && unsupportedLines == new LinkedList<>(entry.getUnsupportedLines());
     }
     
     
@@ -185,18 +190,19 @@ public final class BundleEntry implements IBundleVisitable {
                 + "][comment=" + comment
                 + "][commented=" + commented
                 + "][locale=" + locale 
-                + "][newlines=" + newlines + "]]";
+                + "][unsupportedLines=" + unsupportedLines + "]]";
     }
 
-	/** A call to this method tells us that one more newline character goes after this entry. */
-	public void addNewLine() {
-		newlines++;
+	/** A call to this method tells us that one more newline character goes after this entry. 
+	 * @param unsupportedLine */
+	public void addUnsupportedLine(final String unsupportedLine) {
+		unsupportedLines.add(unsupportedLine);
 	}
 	
 	/**
 	 * @return the number of newline characters following the entry.
 	 */
-	public int getNewlines() {
-		return newlines;
+	public List<String> getUnsupportedLines() {
+		return unsupportedLines;
 	}
 }

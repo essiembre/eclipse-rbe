@@ -18,9 +18,11 @@ package com.essiembre.eclipse.rbe.ui.editor.i18n;
 import java.awt.ComponentOrientation;
 import java.awt.GraphicsEnvironment;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -158,6 +160,8 @@ public class BundleEntryComposite extends Composite {
             BundleEntry entry = bundleGroup.getBundleEntry(locale, activeKey);
             boolean commentedSelected = commentedCheckbox.getSelection();
             String textBoxValue = textViewer.getDocument().get();
+            final List<String> unsupportedLines = 
+            		entry == null ? Collections.emptyList() : entry.getUnsupportedLines();
 
             if (entry == null || !textBoxValue.equals(entry.getValue())
                     || entry.isCommented() != commentedSelected) {
@@ -170,7 +174,7 @@ public class BundleEntryComposite extends Composite {
                         textViewer.getDocument().get(), 
                         comment, 
                         commentedSelected,
-                        entry.getNewlines()));
+                        unsupportedLines));
             }
         }
     }

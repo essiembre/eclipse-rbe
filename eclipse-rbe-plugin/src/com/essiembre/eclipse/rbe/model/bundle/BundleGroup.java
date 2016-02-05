@@ -111,7 +111,7 @@ public class BundleGroup extends Model implements IBundleVisitable {
             if (!bundleEntry.equals(existingEntry)) {
                 bundleEntry.setBundle(bundle);
                 bundleEntry.setLocale(locale);
-                bundle.addEntry(bundleEntry);
+                bundle.addEntryAtInOrder(bundleEntry);
                 refreshKeys();
                 fireModify(bundle);
             }

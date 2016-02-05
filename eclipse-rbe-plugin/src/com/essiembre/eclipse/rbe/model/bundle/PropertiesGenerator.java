@@ -144,8 +144,8 @@ public final class PropertiesGenerator {
             // if no grouping is to be done and we are to keep the original key order 
             // then we also preserve the line breaks of the original file. 
             if (!RBEPreferences.getGroupKeys() && RBEPreferences.getKeepOriginalKeyOrder()) {
-                for (int i = 0; i < bundleEntry.getNewlines(); i++) {
-                	text.append(lineBreak);
+            	for (final String unsupportedLine: bundleEntry.getUnsupportedLines()) {
+                	text.append(unsupportedLine + lineBreak);
                 }
             }
         }

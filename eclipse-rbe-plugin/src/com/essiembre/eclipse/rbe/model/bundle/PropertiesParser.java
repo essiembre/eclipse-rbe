@@ -15,6 +15,7 @@
  */
 package com.essiembre.eclipse.rbe.model.bundle;
 
+import java.util.Collections;
 import java.util.regex.Pattern;
 
 import com.essiembre.eclipse.rbe.RBEPlugin;
@@ -134,8 +135,10 @@ public final class PropertiesParser {
                     value = PATTERN_BACKSLASH_R.matcher(value).replaceAll("\r");
                     value = PATTERN_BACKSLASH_N.matcher(value).replaceAll("\n");
                 }
-                previousEntry = new BundleEntry(key, value, comment, isCommentedLine, 0);
-				bundle.addEntry(previousEntry);
+                previousEntry = new BundleEntry(key, value, comment, isCommentedLine, Collections.emptyList());
+                
+                // record the original order of the keys.
+				bundle.addEntryAtEnd(previousEntry);
             // parse comment line
             } else if (lineBuf.length()>0 && 
                     (lineBuf.charAt(0) == '#' || lineBuf.charAt(0) == '!')) {
@@ -154,7 +157,7 @@ public final class PropertiesParser {
                 if (previousEntry == null) {
                 	fileComment.append(SYSTEM_LINE_SEPARATOR);
                 } else {
-                	previousEntry.addNewLine();
+                	previousEntry.addUnsupportedLine(line);
                 }
             }
         }

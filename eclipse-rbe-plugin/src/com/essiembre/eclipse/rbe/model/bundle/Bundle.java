@@ -16,6 +16,7 @@
 package com.essiembre.eclipse.rbe.model.bundle;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -106,15 +107,11 @@ public class Bundle extends Model implements IBundleVisitable {
      * Adds a bundle entry to this bundle.
      * @param entry the bundle entry to add
      */
-    protected void addEntry(BundleEntry entry) {
+    protected void addEntryAtEnd(BundleEntry entry) {
         BundleEntry oldEntry = (BundleEntry) entries.get(entry.getKey());
         if (oldEntry != null) {
-            if (!oldEntry.equals(entry)) {
-                entries.put(entry.getKey(), entry);
-                entry.setBundle(this);
-                entry.setLocale(locale);
-                fireModify(oldEntry);
-            }
+            modifyExisting(entry, oldEntry);
+            
         } else if (entry.getKey().trim().length() > 0) {
             entries.put(entry.getKey(), entry);
             entry.setBundle(this);
@@ -122,12 +119,108 @@ public class Bundle extends Model implements IBundleVisitable {
             fireAdd(entry);
         }
     }
+
+	/** The order doesn't change when modifying an existing entry.
+	 * @param entry
+	 * @param oldEntry
+	 */
+	private void modifyExisting(BundleEntry entry, BundleEntry oldEntry) {
+		if (!oldEntry.equals(entry)) {
+		    entries.put(entry.getKey(), entry);
+		    entry.setBundle(this);
+		    entry.setLocale(locale);
+		    fireModify(oldEntry);
+		}
+	}
+    
+    /**
+     * Adds a bundle entry to this bundle.
+     * @param entry the bundle entry to add
+     */
+    protected void addEntryAtInOrder(final BundleEntry entry) {
+    	final BundleEntry oldEntry = (BundleEntry) entries.get(entry.getKey());
+        if (oldEntry != null) {
+            modifyExisting(entry, oldEntry);
+            
+        } else if (entry.getKey().trim().length() > 0) {
+        	addInOrder(entry);
+        }
+    }
+    
+	/** Find the ideal place to add this new entry before adding it.
+	 * @param entry
+	 */
+	private void addInOrder(BundleEntry entry) {
+    	// here we place the new key based on the ideal position, if everything were sorted alphabetically
+    	// (as it is in the tree view).
+    	final Map<String, BundleEntry> newMap = new LinkedHashMap<>();
+    	final Set<String> idealKeyOrder = new TreeSet<>(entries.keySet());
+    	idealKeyOrder.add(entry.getKey());
+    	final List<String> idealKeys = new ArrayList<>(idealKeyOrder);
+    	final int previousKeyIndex = idealKeys.indexOf(entry.getKey()) - 1;
+
+    	final String previousKey;
+    	if (previousKeyIndex < 0) {
+    		// this is the case where our new key is the first key in the file.
+    		previousKey = null;
+    		newMap.put(entry.getKey(), entry);
+    	} else {
+    		previousKey = idealKeys.get(previousKeyIndex); 
+    	}
+    	
+    	BundleEntry previousEntry = null;
+    	
+    	// recreate the list of entries and insert our new key in the right place, right after "previousKey"
+    	for (final BundleEntry bundleEntry: entries.values()) {
+    		newMap.put(bundleEntry.getKey(), bundleEntry);
+    		
+    		if (bundleEntry.getKey().equals(previousKey)) {
+    			previousEntry = bundleEntry;
+    			newMap.put(entry.getKey(), entry);
+    		}
+    	}
+    	
+    	// the new map replaces the old
+    	entries.clear();
+    	entries.putAll(newMap);
+    	
+    	// this handles the case where there is a group of items and the new item that we add is at 
+    	// the end of the group. If we keep the unsupported lines then we have to make sure that the 
+    	// new entry stays with the group it's supposed to and not the next group.
+    	if (previousEntry != null) {
+    		entry.getUnsupportedLines().addAll(previousEntry.getUnsupportedLines());
+    		previousEntry.getUnsupportedLines().clear();
+		}
+    	
+        entry.setBundle(this);
+        entry.setLocale(locale);
+        fireAdd(entry);
+	}
     
     /**
      * Removes a bundle entry from this bundle.
      * @param entry the bundle entry to remove
      */
     protected void removeEntry(BundleEntry entry) {
+    	// when we remove a key and it has unsupported lines that follow it, we have to move the 
+    	// unsupported lines to the previous entry or they will be lost.
+    	if (!entry.getUnsupportedLines().isEmpty()) {
+    		BundleEntry previousEntry = null;
+    		final Iterator<Map.Entry<String, BundleEntry>> iterator = entries.entrySet().iterator();
+    		Map.Entry<String, BundleEntry> current;
+    		while (iterator.hasNext()) {
+    			current = iterator.next();
+    			if (entry.getKey().equals(current.getKey())) {
+    				if (previousEntry != null) {
+	    				previousEntry.getUnsupportedLines().addAll(entry.getUnsupportedLines());
+    				}
+    				
+    				break;
+    			}
+    			previousEntry = current.getValue();
+    		}
+    	}
+
         BundleEntry removedEntry = (BundleEntry) entries.get(entry.getKey());
         entries.remove(entry.getKey());
         fireRemove(removedEntry);
@@ -144,7 +237,7 @@ public class Bundle extends Model implements IBundleVisitable {
             BundleEntry newEntry = new BundleEntry(
                     newKey, oldEntry.getValue(), oldEntry.getComment());
             removeEntry(oldEntry);
-            addEntry(newEntry);
+            addEntryAtInOrder(newEntry);
         }
     }
 
@@ -156,8 +249,10 @@ public class Bundle extends Model implements IBundleVisitable {
         BundleEntry entry = (BundleEntry) entries.get(key);
         if (entry != null) {
             BundleEntry newEntry = new BundleEntry(
-                    key, entry.getValue(), entry.getComment(), true, 0);
-            addEntry(newEntry);
+                    key, entry.getValue(), entry.getComment(), true, Collections.emptyList());
+            
+            // the entry already exists so the order won't change.
+            addEntryAtInOrder(newEntry);
         }
     }
     /**
@@ -168,8 +263,10 @@ public class Bundle extends Model implements IBundleVisitable {
         BundleEntry entry = (BundleEntry) entries.get(key);
         if (entry != null) {
             BundleEntry newEntry = new BundleEntry(
-                    key, entry.getValue(), entry.getComment(), false, 0);
-            addEntry(newEntry);
+                    key, entry.getValue(), entry.getComment(), false, Collections.emptyList());
+
+            // the entry already exists so the order won't change.
+            addEntryAtInOrder(newEntry);
         }
     }
     
@@ -183,7 +280,8 @@ public class Bundle extends Model implements IBundleVisitable {
         if (origEntry != null) {
             BundleEntry newEntry = new BundleEntry(
                     newKey, origEntry.getValue(), origEntry.getComment());
-            addEntry(newEntry);
+
+            addEntryAtInOrder(newEntry);
         }
     }
     
@@ -251,7 +349,7 @@ public class Bundle extends Model implements IBundleVisitable {
         // Add existing/new entries
         for (Iterator<BundleEntry> iter = bundle.iterator(); iter.hasNext();) {
             BundleEntry entry = iter.next();
-            addEntry(entry);
+            addEntryAtInOrder(entry);
         }
     }
 }
