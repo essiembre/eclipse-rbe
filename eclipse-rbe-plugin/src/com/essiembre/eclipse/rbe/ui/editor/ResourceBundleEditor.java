@@ -35,7 +35,9 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.ide.IGotoMarker;
@@ -336,7 +338,8 @@ public class ResourceBundleEditor extends MultiPageEditorPart
                         // putting the close operation into the queue
                         // closing during opening caused errors.
                         Display.getDefault().asyncExec(new Runnable() {
-                            public void run() {
+                        	@Override
+							public void run() {
                                 page.closeEditor(editor, true);
                             }
                         });
