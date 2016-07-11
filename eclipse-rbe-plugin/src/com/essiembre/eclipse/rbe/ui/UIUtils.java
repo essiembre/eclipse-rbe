@@ -15,6 +15,11 @@
  */
 package com.essiembre.eclipse.rbe.ui;
 
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.core.runtime.CoreException;
@@ -227,6 +232,32 @@ public final class UIUtils {
             return RBEPlugin.getString("editor.default");
         }
         return locale.getDisplayName();
+    }
+   
+    /**
+     * Sorts given list of locales based on the {@link Locale#getDisplayName()} using 
+     * {@link Collator} in the current locale.
+     * null argument will be always first
+     * 
+     * @param locales to be sorted
+     * @return sorted locales
+     */
+    public static List<Locale> sortLocales(Collection<Locale> locales) {
+    	ArrayList<Locale> result = new ArrayList<>(locales);
+    	result.sort(new Comparator<Locale>() {
+
+			@Override
+			public int compare(Locale o1, Locale o2) {
+				if (o1 == null && o2 == null) return 0;
+				if (o1 != null && o2 == null) return 1;
+				if (o1 == null && o2 != null) return -1;
+				Collator c = Collator.getInstance();
+				c.setStrength(Collator.PRIMARY);
+				return c.compare(o1.getDisplayName(), o2.getDisplayName());
+			}
+			
+		});
+    	return result;
     }
     
     /**
