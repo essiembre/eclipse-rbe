@@ -15,9 +15,13 @@
  */
 package com.essiembre.eclipse.rbe.model.tree;
 
+import java.util.Comparator;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import com.essiembre.eclipse.rbe.model.utils.AlphaNumericComparator;
+import com.essiembre.eclipse.rbe.model.workbench.RBEPreferences;
 
 /**
  * Leaf (tree) representation of one or several resource bundle entries sharing
@@ -37,6 +41,8 @@ public class KeyTreeItem implements Comparable<KeyTreeItem>, IKeyTreeVisitable {
     private Object parent;
     /** Child items. */
     private final SortedSet<KeyTreeItem> children = new TreeSet<KeyTreeItem>();
+    /** Comparator delegate. */
+    private Comparator<String> comparator;
     
     /**
      * Constructor.
@@ -49,6 +55,7 @@ public class KeyTreeItem implements Comparable<KeyTreeItem>, IKeyTreeVisitable {
         this.keyTree = keyTree;
         this.id = id;
         this.name = name;
+        comparator = getComparator();
     }
     
     /**
@@ -143,6 +150,9 @@ public class KeyTreeItem implements Comparable<KeyTreeItem>, IKeyTreeVisitable {
      */
     public int compareTo(KeyTreeItem o) {
         // TODO consider leaving this out to be configurable
+        if (comparator != null) {
+            return comparator.compare(id, o.getId());
+        }
         return this.id.compareTo((o).getId());
     }
     
@@ -224,5 +234,23 @@ public class KeyTreeItem implements Comparable<KeyTreeItem>, IKeyTreeVisitable {
      */
     public boolean isVisible() {
         return visible;
+    }
+
+    /**
+     * Return <code>Comparator</code> to be used for sorting keys in the tree.
+     * @return <code>Comparator</code> to be used for sorting keys in the tree or <code>null</code> to use lexicographical sort order.
+     */
+    public static Comparator<String> getComparator() {
+        if (RBEPreferences.getAlphaNumericSortForKeys()) {
+            return new AlphaNumericComparator<String>(!RBEPreferences.getIgnoreCaseForKeys());
+        } else if (RBEPreferences.getIgnoreCaseForKeys()) {
+            return new Comparator<String>() {
+                @Override
+                public int compare(String o1, String o2) {
+                    return o1.compareToIgnoreCase(o2);
+                }
+            };
+        }
+        return null;
     }
 }

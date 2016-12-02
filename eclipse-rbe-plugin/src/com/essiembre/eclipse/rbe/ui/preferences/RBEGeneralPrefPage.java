@@ -56,6 +56,9 @@ public class RBEGeneralPrefPage extends AbstractRBEPrefPage {
 
 //   private Font   _boldFont;
 
+   private Button alphaNumericSortForKeys;
+   private Button ignoreCaseForKeys;
+
 
    /**
     * Constructor.
@@ -90,6 +93,8 @@ public class RBEGeneralPrefPage extends AbstractRBEPrefPage {
               noTreeInEditor.getSelection());
       prefs.setValue(RBEPreferences.MIN_HEIGHT, _minHeight.getText());
 //      prefs.setValue(RBEPreferences.AUTO_ADJUST, autoAdjust.getSelection());
+      prefs.setValue(RBEPreferences.ALPHA_NUMERIC_SORT_FOR_KEYS, alphaNumericSortForKeys.getSelection());
+      prefs.setValue(RBEPreferences.IGNORE_CASE_FOR_KEYS, ignoreCaseForKeys.getSelection());
 
       refreshEnabledStatuses();
       return super.performOk();
@@ -189,6 +194,16 @@ public class RBEGeneralPrefPage extends AbstractRBEPrefPage {
 //             refreshEnabledStatuses();
 //         }
 //     });
+
+      field = createFieldComposite(composite);
+      alphaNumericSortForKeys = new Button(field, SWT.CHECK);
+      alphaNumericSortForKeys.setSelection(prefs.getBoolean(RBEPreferences.ALPHA_NUMERIC_SORT_FOR_KEYS));
+      new Label(field, SWT.NONE).setText(RBEPlugin.getString("prefs.alphaNumericSortForKeys")); //$NON-NLS-1$
+
+      field = createFieldComposite(composite);
+      ignoreCaseForKeys = new Button(field, SWT.CHECK);
+      ignoreCaseForKeys.setSelection(prefs.getBoolean(RBEPreferences.IGNORE_CASE_FOR_KEYS));
+      new Label(field, SWT.NONE).setText(RBEPlugin.getString("prefs.ignoreCaseForKeys")); //$NON-NLS-1$
 
       field = createFieldComposite(composite);
       new Label(field, SWT.NONE).setText(

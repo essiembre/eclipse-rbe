@@ -83,6 +83,9 @@ public class RBEPreferenceInitializer extends AbstractPreferenceInitializer {
         prefs.setDefault(RBEPreferences.MIN_HEIGHT, 80);
 //        prefs.setDefault(RBEPreferences.AUTO_ADJUST, true);
 
+        prefs.setDefault(RBEPreferences.ALPHA_NUMERIC_SORT_FOR_KEYS, false);
+        prefs.setDefault(RBEPreferences.IGNORE_CASE_FOR_KEYS, false);
+
     }
 
 }
