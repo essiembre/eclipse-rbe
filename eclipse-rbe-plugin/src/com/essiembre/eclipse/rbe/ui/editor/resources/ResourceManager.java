@@ -26,6 +26,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 
 import com.essiembre.eclipse.rbe.model.DeltaEvent;
@@ -39,6 +41,7 @@ import com.essiembre.eclipse.rbe.model.tree.updater.FlatKeyTreeUpdater;
 import com.essiembre.eclipse.rbe.model.tree.updater.GroupedKeyTreeUpdater;
 import com.essiembre.eclipse.rbe.model.tree.updater.KeyTreeUpdater;
 import com.essiembre.eclipse.rbe.model.workbench.RBEPreferences;
+import com.essiembre.eclipse.rbe.ui.editor.ResourceBundleEditor;
 
 /**
  * Mediator holding instances of commonly used items, dealing with 
@@ -54,6 +57,9 @@ public class ResourceManager {
     /** key=Locale;value=SourceEditor */
     /*default*/ final Map<Locale, SourceEditor> sourceEditors = new HashMap<>();
     private final List<Locale> locales = new ArrayList<>();
+    //contains all ResourceManagers which can take moved keys
+    private static List <ResourceManager> availaibleManagers = new ArrayList<ResourceManager>(); 
+    private String fileName;
     
     /**
      * Constructor.
@@ -64,6 +70,7 @@ public class ResourceManager {
     public ResourceManager(final IEditorSite site, final IFile file)
             throws CoreException {
         super();
+        fileName = file.getFullPath().toOSString();
         resourcesFactory = ResourceFactory.createFactory(site, file);
         bundleGroup = new BundleGroup();
         SourceEditor[] editors = resourcesFactory.getSourceEditors();
@@ -97,8 +104,62 @@ public class ResourceManager {
             treeUpdater = new FlatKeyTreeUpdater();
         }
         this.keyTree = new KeyTree(bundleGroup, treeUpdater);
+        site.getPage().addPartListener(new IPartListener() {
+			
+			@Override
+			public void partOpened(IWorkbenchPart arg0) {
+				//after new ResourceBundleEditor is opened we have to add it to all availables list
+				if (arg0 instanceof ResourceBundleEditor) {
+					if (!availaibleManagers.contains(((ResourceBundleEditor)arg0).getResourceManager())) {
+						availaibleManagers.add(((ResourceBundleEditor)arg0).getResourceManager());						
+					};
+				}
+			}
+			
+			@Override
+			public void partDeactivated(IWorkbenchPart arg0) {
+				//if ResourceBundleEditor is deactivated its mean that it is ready to take.. so we have to add it to all availables list
+				if (arg0 instanceof ResourceBundleEditor) {
+					if (!availaibleManagers.contains(((ResourceBundleEditor)arg0).getResourceManager())) {
+						availaibleManagers.add(((ResourceBundleEditor)arg0).getResourceManager());
+					}
+				}
+			}
+			
+			@Override
+			public void partClosed(IWorkbenchPart arg0) {
+				//after close we remove it from list
+				if (arg0 instanceof ResourceBundleEditor) {
+					if (availaibleManagers.contains(((ResourceBundleEditor)arg0).getResourceManager())) {
+						availaibleManagers.remove(((ResourceBundleEditor)arg0).getResourceManager());
+					}
+				}
+			}
+			
+			@Override
+			public void partBroughtToTop(IWorkbenchPart arg0) {
+			}
+			
+			@Override
+			public void partActivated(IWorkbenchPart arg0) {
+				//if ResourceBundleEditor is activated its mean it cannot receive keys from its self so we have to remove it from all availables list
+				if (arg0 instanceof ResourceBundleEditor) {
+					if (availaibleManagers.contains(((ResourceBundleEditor)arg0).getResourceManager())) {
+						availaibleManagers.remove(((ResourceBundleEditor)arg0).getResourceManager());		
+					}
+				}
+			}
+		});
     }
 
+    public String getFileName() {
+		return fileName;
+	}
+    
+    public static List<ResourceManager> getAvailaibleManagers() {
+		return availaibleManagers;
+	}
+    
     /**
      * Gets a bundle group.
      * @return bundle group

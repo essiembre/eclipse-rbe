@@ -47,6 +47,10 @@ public class BundleGroup extends Model implements IBundleVisitable {
         super();
     }
 
+    public Set<Locale> getLocales() {
+    	return bundles.keySet();
+    }
+    
     /**
      * @see IBundleVisitable#accept(IBundleVisitor, Object)
      */
