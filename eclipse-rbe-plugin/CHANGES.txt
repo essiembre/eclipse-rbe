@@ -1,5 +1,9 @@
 Here is an overview of changes for each release:
 
+Release 1.0.6 (2017-02-24)
+--------------------------
+- Fixed NPE in Eclipse Neon (github #52).
+
 Release 1.0.5 (2015-11-30)
 --------------------------
 - Fixed efault bundle not showing (github #25).
