@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2014  Pascal Essiembre
+ * Copyright (C) 2003-2017  Pascal Essiembre
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
@@ -73,8 +74,8 @@ public class ResourceBundleEditor extends MultiPageEditorPart
     
     private ResourceChangeListener resourceChangeListener = 
             new ResourceChangeListener();
-    private List<IPath> paths = new ArrayList<IPath>();
-    
+    private List<IPath> paths = new ArrayList<>();
+    private SourceEditor lastEditor;
     
     /**
      * Creates a multi-page editor example.
@@ -200,20 +201,23 @@ public class ResourceBundleEditor extends MultiPageEditorPart
         }
     }
 
-
-    
-    @SuppressWarnings("rawtypes")
-    @Override
-    public Object getAdapter(Class adapter) {
-        Object obj = super.getAdapter(adapter);
-        if (obj == null) {
-            if (IContentOutlinePage.class.equals(adapter)) {
-                return (outline);
-            }
+    @SuppressWarnings("unchecked")
+	@Override
+	public <T> T getAdapter(Class<T> adapter) {
+    	T obj = null;
+    	try {
+            obj = super.getAdapter(adapter);
+        } catch (NullPointerException e) {
+            RBEPlugin.getDefault().getLog().log(new Status(
+                    Status.ERROR, RBEPlugin.ID, 
+                    "Got a NPE from MultiPageEditorPart#getAdapter(Class<T>) "
+                  + "for adapter class: " + adapter, e));
         }
-        return (obj);
+        if (obj == null && IContentOutlinePage.class.equals(adapter)) {
+            return (T) outline;
+        }
+        return obj;
     }
-    
     
     /**
      * Saves the multi-page editor's document.
@@ -278,8 +282,6 @@ public class ResourceBundleEditor extends MultiPageEditorPart
         }
     }
     
-    private SourceEditor lastEditor;
-
     /**
      * Calculates the contents of page GUI page when it is activated.
      * @param newPageIndex new page index
@@ -336,6 +338,7 @@ public class ResourceBundleEditor extends MultiPageEditorPart
                         // putting the close operation into the queue
                         // closing during opening caused errors.
                         Display.getDefault().asyncExec(new Runnable() {
+                            @Override
                             public void run() {
                                 page.closeEditor(editor, true);
                             }
