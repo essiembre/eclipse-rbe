@@ -15,6 +15,7 @@
  */
 package com.essiembre.eclipse.rbe.model.bundle;
 
+import java.util.Collections;
 import java.util.regex.Pattern;
 
 import com.essiembre.eclipse.rbe.RBEPlugin;
@@ -69,6 +70,11 @@ public final class PropertiesParser {
         StringBuffer fileComment = new StringBuffer();
         StringBuffer lineComment = new StringBuffer();
         StringBuffer lineBuf = new StringBuffer();
+        
+        // help add newlines by keeping a reference to the previous entry
+        BundleEntry previousEntry = null;
+        
+        // parse all lines
         for (int i = 0; i < lines.length; i++) {
             String line = lines[i];
             lineBuf.setLength(0);
@@ -129,8 +135,10 @@ public final class PropertiesParser {
                     value = PATTERN_BACKSLASH_R.matcher(value).replaceAll("\r");
                     value = PATTERN_BACKSLASH_N.matcher(value).replaceAll("\n");
                 }
-                bundle.addEntry(
-                        new BundleEntry(key, value, comment, isCommentedLine));
+                previousEntry = new BundleEntry(key, value, comment, isCommentedLine, Collections.emptyList());
+                
+                // record the original order of the keys.
+				bundle.addEntryAtEnd(previousEntry);
             // parse comment line
             } else if (lineBuf.length()>0 && 
                     (lineBuf.charAt(0) == '#' || lineBuf.charAt(0) == '!')) {
@@ -144,6 +152,13 @@ public final class PropertiesParser {
             // handle blank or unsupported line
             } else {
                 doneWithFileComment = true;
+                
+                // track unsupported lines here.
+                if (previousEntry == null) {
+                	fileComment.append(SYSTEM_LINE_SEPARATOR);
+                } else {
+                	previousEntry.addUnsupportedLine(line);
+                }
             }
         }
         bundle.setComment(fileComment.toString());

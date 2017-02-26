@@ -60,6 +60,7 @@ public class RBEFormattingPrefPage extends AbstractRBEPrefPage {
     private Button[] newLineTypes = new Button[3];
 
     private Button keepEmptyFields;
+    private Button keepOriginalKeyOrder;
     
     /**
      * Constructor.
@@ -268,6 +269,13 @@ public class RBEFormattingPrefPage extends AbstractRBEPrefPage {
         new Label(field, SWT.NONE).setText(
                 RBEPlugin.getString("prefs.keepEmptyFields"));
         
+        // Keep original key order?
+        field = createFieldComposite(composite);
+        keepOriginalKeyOrder = new Button(field, SWT.CHECK);
+        keepOriginalKeyOrder.setSelection(prefs.getBoolean(
+                RBEPreferences.KEEP_ORIGINAL_KEY_ORDER));
+        new Label(field, SWT.NONE).setText(
+                RBEPlugin.getString("prefs.keepOriginalKeyOrder"));
         refreshEnabledStatuses();
         
         return composite;
@@ -314,6 +322,10 @@ public class RBEFormattingPrefPage extends AbstractRBEPrefPage {
         }
         prefs.setValue(RBEPreferences.KEEP_EMPTY_FIELDS,
                 keepEmptyFields.getSelection());
+
+        prefs.setValue(RBEPreferences.KEEP_ORIGINAL_KEY_ORDER,
+                keepOriginalKeyOrder.getSelection());
+        
         refreshEnabledStatuses();
         return super.performOk();
     }
@@ -356,6 +368,8 @@ public class RBEFormattingPrefPage extends AbstractRBEPrefPage {
                 RBEPreferences.NEW_LINE_TYPE)].setSelection(true);
         keepEmptyFields.setSelection(
                 prefs.getDefaultBoolean(RBEPreferences.KEEP_EMPTY_FIELDS));
+        keepOriginalKeyOrder.setSelection(
+                prefs.getDefaultBoolean(RBEPreferences.KEEP_ORIGINAL_KEY_ORDER));
         refreshEnabledStatuses();
         super.performDefaults();
     }
