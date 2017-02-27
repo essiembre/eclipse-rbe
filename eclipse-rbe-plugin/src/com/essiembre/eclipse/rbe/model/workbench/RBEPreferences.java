@@ -136,6 +136,9 @@ public final class RBEPreferences {
 //    public static final String AUTO_ADJUST = "autoAdjust";                               
 
     
+    /** Should we keep the original key order or not. */
+    public static final String KEEP_ORIGINAL_KEY_ORDER = "keepOriginalKeyOrder";
+
     public static final String PREFERENCE_ID = "eclipse-rbe-preferences";
     
     /** RBEPreferences. */
@@ -357,6 +360,13 @@ public final class RBEPreferences {
         return PREFS.getBoolean(FORCE_NEW_LINE_TYPE);
     }
 
+    /**
+     * Gets whether to keep the original key order or not.
+     * @return <code>true</code> if the original key order is to be kept.
+     */
+    public static boolean getKeepOriginalKeyOrder() {
+        return PREFS.getBoolean(KEEP_ORIGINAL_KEY_ORDER);
+    }
     
     //--- Reporting/Performance ------------------------------------------------
 
