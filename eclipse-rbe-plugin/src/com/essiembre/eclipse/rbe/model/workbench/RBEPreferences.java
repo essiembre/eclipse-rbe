@@ -22,6 +22,7 @@ import com.essiembre.eclipse.rbe.RBEPlugin;
 /**
  * Application preferences, relevant to the resource bundle editor plugin.
  * @author Pascal Essiembre
+ * @author wolfgang-ch
  */
 public final class RBEPreferences {
    
@@ -29,6 +30,9 @@ public final class RBEPreferences {
     public static final String KEY_GROUP_SEPARATOR =
             "keyGroupSeparator";
 
+    /** Locales filter and order defined as a comma separated list of string matchers */
+    public static final String FILTER_LOCALES_STRING_MATCHERS = "localesFilterStringMatchers";
+    
     /** Should key tree be hiearchical by default. */
     public static final String KEY_TREE_HIERARCHICAL =
             "keyTreeHierarchical";

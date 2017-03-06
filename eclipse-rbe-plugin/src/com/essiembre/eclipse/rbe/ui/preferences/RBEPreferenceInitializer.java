@@ -20,12 +20,14 @@ import org.eclipse.jface.preference.IPreferenceStore;
 
 import com.essiembre.eclipse.rbe.RBEPlugin;
 import com.essiembre.eclipse.rbe.model.workbench.RBEPreferences;
+import com.essiembre.eclipse.rbe.ui.editor.resources.ResourceFilter;
 
 /**
  * Initializes default preferences.
  * 
  * @author Pascal Essiembre
  * @author cuhiodtick
+ * @author wolfgang-ch
  */
 public class RBEPreferenceInitializer extends AbstractPreferenceInitializer {
 
@@ -47,6 +49,10 @@ public class RBEPreferenceInitializer extends AbstractPreferenceInitializer {
         prefs.setDefault(RBEPreferences.KEY_TREE_EXPANDED, true);
         prefs.setDefault(RBEPreferences.SUPPORT_FRAGMENTS, true);
         prefs.setDefault(RBEPreferences.LOAD_ONLY_FRAGMENT_RESOURCES, false);
+
+        //locales filter: by default: don't filter locales.
+        prefs.setDefault(RBEPreferences.FILTER_LOCALES_STRING_MATCHERS, "*"); //$NON-NLS-1$
+        prefs.addPropertyChangeListener(ResourceFilter.getInstance());
 
         // Formatting
         prefs.setDefault(RBEPreferences.CONVERT_UNICODE_TO_ENCODED, true);
