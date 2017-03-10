@@ -33,6 +33,7 @@ import com.essiembre.eclipse.rbe.model.workbench.files.StandardPropertiesFileCre
  * directory structure.
  * @author Pascal Essiembre
  * @author Alexander Bieber
+ * @author wolfgang-ch
  */
 public class StandardResourceFactory extends ResourceFactory {
 
@@ -93,11 +94,16 @@ public class StandardResourceFactory extends ResourceFactory {
             throw new PartInitException(
                    "Can't initialize resource bundle editor.", e);
         }
+        ResourceFilter resourceFilter = new ResourceFilter();
         Collection<IResource> validResources = new ArrayList<>();
         for (int i = 0; i < resources.length; i++) {
             IResource resource = resources[i];
             String resourceName = resource.getName();
-            if (resource instanceof IFile && resourceName.matches(regex)) {
+            
+			if (resource instanceof IFile
+				&& resourceName.matches(regex)
+				&& resourceFilter.isResourceDisplayed(resourceName, regex)) {
+				
                 validResources.add(resource);
             }
         }

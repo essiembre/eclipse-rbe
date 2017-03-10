@@ -34,12 +34,15 @@ import com.essiembre.eclipse.rbe.model.workbench.RBEPreferences;
  * @author Pascal Essiembre
  * @author cuhiodtick
  * @author k0ner
+ * @author wolfgang-ch
  */
 public class RBEGeneralPrefPage extends AbstractRBEPrefPage {
 
    /* Preference fields. */
    private Text   keyGroupSeparator;
 
+   private Text   filterLocales;
+    
    private Button convertEncodedToUnicode;
 
    private Button supportNL;
@@ -72,6 +75,7 @@ public class RBEGeneralPrefPage extends AbstractRBEPrefPage {
       IPreferenceStore prefs = getPreferenceStore();
       prefs.setValue(RBEPreferences.KEY_GROUP_SEPARATOR, 
               keyGroupSeparator.getText());
+      prefs.setValue(RBEPreferences.FILTER_LOCALES_STRING_MATCHERS, filterLocales.getText());
       prefs.setValue(RBEPreferences.CONVERT_ENCODED_TO_UNICODE, 
               convertEncodedToUnicode.getSelection());
       prefs.setValue(RBEPreferences.SUPPORT_NL, supportNL.getSelection());
@@ -110,6 +114,16 @@ public class RBEGeneralPrefPage extends AbstractRBEPrefPage {
       keyGroupSeparator.setTextLimit(2);
       setWidthInChars(keyGroupSeparator, 2);
 
+      // Filter locales
+      field = createFieldComposite(composite);
+      Label filterLocalesLabel = new Label(field, SWT.NONE);
+      filterLocalesLabel.setText(RBEPlugin.getString("prefs.filterLocales.label"));
+      filterLocalesLabel.setToolTipText(RBEPlugin.getString("prefs.filterLocales.tooltip"));
+      filterLocales = new Text(field, SWT.BORDER);
+      filterLocales.setText(prefs.getString(RBEPreferences.FILTER_LOCALES_STRING_MATCHERS));
+      filterLocales.setTextLimit(22);
+      setWidthInChars(filterLocales, 16);
+        
       // Convert encoded to unicode?
       field = createFieldComposite(composite);
       convertEncodedToUnicode = new Button(field, SWT.CHECK);
@@ -189,6 +203,8 @@ public class RBEGeneralPrefPage extends AbstractRBEPrefPage {
       IPreferenceStore prefs = getPreferenceStore();
       keyGroupSeparator.setText(
               prefs.getDefaultString(RBEPreferences.KEY_GROUP_SEPARATOR));
+      filterLocales.setText(
+              prefs.getDefaultString(RBEPreferences.FILTER_LOCALES_STRING_MATCHERS));
       convertEncodedToUnicode.setSelection(prefs.getDefaultBoolean(
               RBEPreferences.CONVERT_ENCODED_TO_UNICODE));
       supportNL.setSelection(
