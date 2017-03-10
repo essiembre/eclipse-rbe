@@ -682,7 +682,18 @@ public class BundleEntryComposite extends Composite {
             String imageName = "countries/" +
             countryCode.toLowerCase() + ".gif";
             image = UIUtils.getImage(imageName);
-        }
+            
+		} else if (countryLocale != null
+				&& countryLocale.getLanguage() != null
+				&& countryLocale.getLanguage().length() > 0) {
+
+			// show language image when country image is not available
+
+			String countryLanguage = countryLocale.getLanguage();
+			String imageName = "countries/" + countryLanguage.toLowerCase() + ".gif";
+
+			image = UIUtils.getImage(imageName);
+		}
         if (image == null) {
             image = UIUtils.getImage("countries/blank.gif");
         }
