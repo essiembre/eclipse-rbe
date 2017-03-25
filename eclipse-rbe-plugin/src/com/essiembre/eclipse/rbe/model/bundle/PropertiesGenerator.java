@@ -227,7 +227,15 @@ public final class PropertiesGenerator {
                         //text.append(valueBuf.substring(0, endPos));
                     } else {
                         breakPos = line.lastIndexOf(' ');
-                        if (breakPos != -1) {
+                        
+						if (breakPos == -1 && line.length() == endPos) {
+							
+							// text value has no spaces but content
+							saveValue(text, valueBuf.substring(0, endPos));
+							text.append("\\");
+							text.append(SYSTEM_LINE_SEP);
+							
+						} else if (breakPos != -1) {
                             endPos = breakPos + 1;
                             saveValue(text, valueBuf.substring(0, endPos));
                             //text.append(valueBuf.substring(0, endPos));
