@@ -19,7 +19,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -80,14 +79,7 @@ public abstract class ResourceFactory implements IResourceFactory {
      * Sorted by key (Locale).
      */
     private Map<Locale, SourceEditor> sourceEditors = 
-            new TreeMap<>(new Comparator<Locale>() {
-        @Override
-        public int compare(Locale locale1, Locale locale2) {
-           String displayName1 = UIUtils.getDisplayName(locale1);
-           String displayName2 = UIUtils.getDisplayName(locale2);
-           return displayName1.compareToIgnoreCase(displayName2);
-        }
-    });
+            new TreeMap<>(new UIUtils.LocaleComparator());
         
     /**
      * The {@link PropertiesFileCreator} used to create new files.

@@ -48,7 +48,19 @@ import com.essiembre.eclipse.rbe.RBEPlugin;
  */
 public final class UIUtils {
 
-    /** Name of resource bundle image. */
+    public static final class LocaleComparator implements Comparator<Locale> {
+		@Override
+		public int compare(Locale o1, Locale o2) {
+			if (o1 == null && o2 == null) return 0;
+			if (o1 != null && o2 == null) return 1;
+			if (o1 == null && o2 != null) return -1;
+			Collator c = Collator.getInstance();
+			c.setStrength(Collator.PRIMARY);
+			return c.compare(o1.getDisplayName(), o2.getDisplayName());
+		}
+	}
+
+	/** Name of resource bundle image. */
     public static final String IMAGE_RESOURCE_BUNDLE = 
             "resourcebundle.gif"; 
     /** Name of properties file image. */
@@ -244,19 +256,7 @@ public final class UIUtils {
      */
     public static List<Locale> sortLocales(Collection<Locale> locales) {
     	ArrayList<Locale> result = new ArrayList<>(locales);
-    	result.sort(new Comparator<Locale>() {
-
-			@Override
-			public int compare(Locale o1, Locale o2) {
-				if (o1 == null && o2 == null) return 0;
-				if (o1 != null && o2 == null) return 1;
-				if (o1 == null && o2 != null) return -1;
-				Collator c = Collator.getInstance();
-				c.setStrength(Collator.PRIMARY);
-				return c.compare(o1.getDisplayName(), o2.getDisplayName());
-			}
-			
-		});
+    	result.sort(new LocaleComparator());
     	return result;
     }
     
