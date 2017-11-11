@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2014  Pascal Essiembre
+ * Copyright (C) 2003-2017  Pascal Essiembre
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,6 +50,7 @@ public class RBEPlugin extends AbstractUIPlugin {
     /**
      * This method is called upon plug-in activation
      */
+    @Override
     public void start(BundleContext context) throws Exception {
         super.start(context);
         resourceBundle = Platform.getResourceBundle(getBundle());
@@ -59,6 +60,7 @@ public class RBEPlugin extends AbstractUIPlugin {
     /**
      * This method is called when the plug-in is stopped
      */
+    @Override
     public void stop(BundleContext context) throws Exception {
         plugin = null;
         super.stop(context);

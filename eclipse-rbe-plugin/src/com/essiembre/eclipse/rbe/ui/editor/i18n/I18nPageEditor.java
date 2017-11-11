@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2014  Pascal Essiembre
+ * Copyright (C) 2003-2017  Pascal Essiembre
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package com.essiembre.eclipse.rbe.ui.editor.i18n;
 
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.text.IFindReplaceTarget;
 import org.eclipse.swt.SWT;
@@ -81,13 +82,21 @@ public class I18nPageEditor extends AbstractTextEditor {
                 IWorkbenchActionDefinitionIds.FIND_PREVIOUS);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    @SuppressWarnings("rawtypes")
-    public Object getAdapter(Class required) {
+    public <T> T getAdapter(Class<T> required) {
         if (required.equals(IFindReplaceTarget.class)) {
-            return i18nPage.getReplaceTarget();
+            return (T) i18nPage.getReplaceTarget();
         }
-        return super.getAdapter(required);
+        try {
+            return super.getAdapter(required);
+        } catch (NullPointerException e) {
+            RBEPlugin.getDefault().getLog().log(new Status(
+                    Status.ERROR, RBEPlugin.ID, 
+                    "Got a NPE from AbstractTextEditor#getAdapter(Class<T>) "
+                  + "for adapter class: " + required, e));
+            return null;
+        }
     }
 
     public IAction getFindReplaceAction() {
