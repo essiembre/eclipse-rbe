@@ -37,6 +37,7 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
@@ -54,7 +55,7 @@ import com.essiembre.eclipse.rbe.ui.editor.resources.ResourceManager;
 /**
  * Internationalization page where one can edit all resource bundle entries at
  * once for all supported locales.
- * 
+ *
  * @author Pascal Essiembre
  * @author cuhiodtick
  */
@@ -62,8 +63,7 @@ public class I18nPage extends ScrolledComposite {
 
     private final ResourceManager resourceMediator;
     private final KeyTreeComposite keysComposite;
-    private final List<BundleEntryComposite> entryComposites = 
-            new ArrayList<>();
+    private final List<BundleEntryComposite> entryComposites = new ArrayList<>();
     private final LocalBehaviour localBehaviour = new LocalBehaviour();
     private final ScrolledComposite editingComposite;
 
@@ -73,10 +73,11 @@ public class I18nPage extends ScrolledComposite {
     private AutoMouseWheelAdapter _autoMouseWheelAdapter;
 //    boolean _autoAdjustNeeded;
     private Composite _rightComposite;
+    private Button pushbutton;
 
     /**
      * Constructor.
-     * 
+     *
      * @param parent
      *            parent component.
      * @param style
@@ -148,7 +149,7 @@ public class I18nPage extends ScrolledComposite {
 
     /**
      * Gets selected key.
-     * 
+     *
      * @return selected key
      */
     private String getSelectedKey() {
@@ -157,7 +158,7 @@ public class I18nPage extends ScrolledComposite {
 
     /**
      * Creates right side of main sash form.
-     * 
+     *
      * @param sashForm
      *            parent sash form
      */
@@ -171,7 +172,7 @@ public class I18nPage extends ScrolledComposite {
     /**
      * Creates the editing parts which are display within the supplied parental
      * ScrolledComposite instance.
-     * 
+     *
      * @param parent
      *            A container to collect the bundle entry editors.
      */
@@ -189,8 +190,13 @@ public class I18nPage extends ScrolledComposite {
                             * RBEPreferences.getMinHeight()));
 //        }
         _rightComposite.setLayout(new GridLayout(1, false));
+        if (!GoogleTranslationCaller.empty(RBEPreferences.getTranslationApiKey())) {
+            pushbutton = new Button(_rightComposite, SWT.PUSH);
+            pushbutton.setText("Translate!");
+            pushbutton.addSelectionListener(new GoogleTranslationCaller(entryComposites));
+        }
         entryComposites.clear();
-        for (Iterator<Locale> iter = resourceMediator.getLocales().iterator(); 
+        for (Iterator<Locale> iter = resourceMediator.getLocales().iterator();
                 iter.hasNext();) {
             Locale locale = (Locale) iter.next();
             BundleEntryComposite entryComposite = new BundleEntryComposite(
@@ -204,7 +210,7 @@ public class I18nPage extends ScrolledComposite {
      * This method focusses the {@link BundleEntryComposite} corresponding to
      * the given {@link Locale}. If no such composite exists or the locale is
      * null, nothing happens.
-     * 
+     *
      * @param locale
      *            The locale whose {@link BundleEntryComposite} is to be
      *            focussed.
@@ -251,7 +257,7 @@ public class I18nPage extends ScrolledComposite {
     /**
      * Focusses the given {@link BundleEntryComposite} and scrolls the
      * surrounding {@link ScrolledComposite} in order to make it visible.
-     * 
+     *
      * @param comp
      *            The {@link BundleEntryComposite} to be focussed.
      */
@@ -317,7 +323,7 @@ public class I18nPage extends ScrolledComposite {
      */
     public void refreshTextBoxes() {
         String key = getSelectedKey();
-        for (Iterator<BundleEntryComposite> iter = entryComposites.iterator(); 
+        for (Iterator<BundleEntryComposite> iter = entryComposites.iterator();
                 iter.hasNext();) {
             BundleEntryComposite entryComposite = iter.next();
             entryComposite.refresh(key);
@@ -341,7 +347,7 @@ public class I18nPage extends ScrolledComposite {
         if (keysComposite != null) {
             keysComposite.dispose();
         }
-        for (Iterator<BundleEntryComposite> iter = entryComposites.iterator(); 
+        for (Iterator<BundleEntryComposite> iter = entryComposites.iterator();
                 iter.hasNext();) {
             iter.next().dispose();
         }
@@ -431,7 +437,7 @@ public class I18nPage extends ScrolledComposite {
 
         @Override
         public int findAndSelect(int widgetOffset, String findString,
-                boolean searchForward, 
+                boolean searchForward,
                 boolean caseSensitive, boolean wholeWord) {
             // replaced by findAndSelect(.,.)
             return -1;
@@ -458,12 +464,12 @@ public class I18nPage extends ScrolledComposite {
             BundleGroup bundleGroup = resourceMediator.getBundleGroup();
             ArrayList<String> keys = new ArrayList<String>(
                     bundleGroup.getKeys());
-            String activeKey = lastActiveEntry != null ? 
+            String activeKey = lastActiveEntry != null ?
                     lastActiveEntry.activeKey : keys.get(0);
             int activeKeyIndex = Math.max(keys.indexOf(activeKey), 0);
 
             List<Locale> locales = resourceMediator.getLocales();
-            Locale activeLocale = lastActiveEntry != null 
+            Locale activeLocale = lastActiveEntry != null
                     ? lastActiveEntry.locale
                     : locales.get(0);
             int activeLocaleIndex = locales.indexOf(activeLocale)
@@ -508,7 +514,7 @@ public class I18nPage extends ScrolledComposite {
                 boolean searchForward, boolean caseSensitive,
                 boolean wholeWord, boolean regExSearch) {
             Document document = new Document(text);
-            FindReplaceDocumentAdapter documentAdapter = 
+            FindReplaceDocumentAdapter documentAdapter =
                     new FindReplaceDocumentAdapter(document);
             try {
                 return documentAdapter.find(offset, findString, searchForward,

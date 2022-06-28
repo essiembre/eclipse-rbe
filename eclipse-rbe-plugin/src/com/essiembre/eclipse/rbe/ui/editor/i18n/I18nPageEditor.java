@@ -48,7 +48,6 @@ public class I18nPageEditor extends AbstractTextEditor {
     @Override
     public void createPartControl(Composite parent) {
         i18nPage = new I18nPage(parent, SWT.NONE, resourceMediator);
-
         findReplaceAction = new FindReplaceAction(RBEPlugin.getDefault()
                 .getResourceBundle(), null, i18nPage.getShell(),
                 i18nPage.getReplaceTarget()) {
@@ -92,7 +91,7 @@ public class I18nPageEditor extends AbstractTextEditor {
             return super.getAdapter(required);
         } catch (NullPointerException e) {
             RBEPlugin.getDefault().getLog().log(new Status(
-                    Status.ERROR, RBEPlugin.ID, 
+                    Status.ERROR, RBEPlugin.ID,
                     "Got a NPE from AbstractTextEditor#getAdapter(Class<T>) "
                   + "for adapter class: " + required, e));
             return null;
