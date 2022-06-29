@@ -41,6 +41,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
+import com.essiembre.eclipse.rbe.RBEPlugin;
 import com.essiembre.eclipse.rbe.model.DeltaEvent;
 import com.essiembre.eclipse.rbe.model.IDeltaListener;
 import com.essiembre.eclipse.rbe.model.bundle.Bundle;
@@ -73,7 +74,7 @@ public class I18nPage extends ScrolledComposite {
     private AutoMouseWheelAdapter _autoMouseWheelAdapter;
 //    boolean _autoAdjustNeeded;
     private Composite _rightComposite;
-    private Button pushbutton;
+    private Button translateButton;
 
     /**
      * Constructor.
@@ -191,9 +192,10 @@ public class I18nPage extends ScrolledComposite {
 //        }
         _rightComposite.setLayout(new GridLayout(1, false));
         if (!GoogleTranslationCaller.empty(RBEPreferences.getTranslationApiKey())) {
-            pushbutton = new Button(_rightComposite, SWT.PUSH);
-            pushbutton.setText("Translate!");
-            pushbutton.addSelectionListener(new GoogleTranslationCaller(entryComposites));
+            translateButton = new Button(_rightComposite, SWT.PUSH);
+            translateButton.setText(RBEPlugin.getString("editor.translate"));
+            translateButton.addSelectionListener(new GoogleTranslationCaller(entryComposites));
+            translateButton.setEnabled(false);
         }
         entryComposites.clear();
         for (Iterator<Locale> iter = resourceMediator.getLocales().iterator();
@@ -328,6 +330,8 @@ public class I18nPage extends ScrolledComposite {
             BundleEntryComposite entryComposite = iter.next();
             entryComposite.refresh(key);
         }
+        if (translateButton != null)
+            translateButton.setEnabled(key != null && resourceMediator.getBundleGroup().isKey(key));
     }
 
     /**

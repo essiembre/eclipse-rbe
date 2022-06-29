@@ -13,10 +13,12 @@ import java.util.Map;
 import java.util.StringJoiner;
 import java.util.regex.Pattern;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 
+import com.essiembre.eclipse.rbe.RBEPlugin;
 import com.essiembre.eclipse.rbe.model.workbench.RBEPreferences;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,6 +36,7 @@ final class GoogleTranslationCaller implements SelectionListener {
 
     @Override
     public void widgetSelected(SelectionEvent arg0) {
+        boolean translationsMade = false;
         BundleEntryComposite original = null;
         for (BundleEntryComposite compos : entryComposites) {
             String text = compos.getTextViewer().getDocument().get();
@@ -44,20 +47,30 @@ final class GoogleTranslationCaller implements SelectionListener {
         }
         if (original != null) {
             String oriText = original.getTextViewer().getDocument().get();
+            Map<String, String> translationErrors = new HashMap<>();
             for (BundleEntryComposite compos : entryComposites) {
                 if (compos != original) {
                     IDocument docu = compos.getTextViewer().getDocument();
-                    if (empty(docu.get()))
+                    if (empty(docu.get())) {
                         try {
                             docu.set(translate(oriText, langOf(original), langOf(compos)));
                             compos.updateBundleOnChanges();
                         } catch (IOException e) {
                             e.printStackTrace();
+                            translationErrors.put(langOf(compos), e.getMessage());
                         }
+                        translationsMade = true;
+                    }
                 }
             }
-
+            if (!translationErrors.isEmpty()) {
+                MessageDialog.openError(entryComposites.get(0).getShell(), "Error",
+                    RBEPlugin.getString("error.translate.errForLang", translationErrors.toString()));
+            }
         }
+        if (!translationsMade)
+            MessageDialog.openInformation(entryComposites.get(0).getShell(), "Info",
+                    RBEPlugin.getString("error.translate.noTextToTranslate"));
     }
 
     private String langOf(BundleEntryComposite original) {
@@ -90,12 +103,29 @@ final class GoogleTranslationCaller implements SelectionListener {
             os.write(out);
         }
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode root = mapper.readTree(http.getInputStream());
+        JsonNode root = null;
+        IOException ioException = null;
+        try {
+            root = mapper.readTree(http.getInputStream());
+        } catch (IOException e) {
+            try {
+                root = mapper.readTree(http.getErrorStream());
+                ioException = e;
+            } catch (Exception e2) {
+                throw e;
+            }
+        }
         JsonNode transText = root.path("data").path("translations");
         sj = new StringJoiner(" ");
-        if (transText.isMissingNode())
-            throw new IOException("No translation found in server response");
-        else
+        if (transText.isMissingNode()) {
+            transText = root.path("error").path("message");
+            if (transText.isMissingNode())
+                if (ioException != null)
+                    throw ioException;
+                else throw new IOException(RBEPlugin.getString("No translation found in server response"));
+            else
+                throw new IOException(transText.textValue());
+        } else
             for (JsonNode transNode : transText) {
                 sj.add(transNode.path("translatedText").textValue());
             };
