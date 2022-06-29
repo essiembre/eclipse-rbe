@@ -23,7 +23,7 @@ import com.essiembre.eclipse.rbe.model.workbench.RBEPreferences;
 
 /**
  * Initializes default preferences.
- * 
+ *
  * @author Pascal Essiembre
  * @author cuhiodtick
  */
@@ -81,8 +81,10 @@ public class RBEPreferenceInitializer extends AbstractPreferenceInitializer {
         prefs.setDefault(RBEPreferences.NO_TREE_IN_EDITOR, false);
 
         prefs.setDefault(RBEPreferences.MIN_HEIGHT, 80);
-//        prefs.setDefault(RBEPreferences.AUTO_ADJUST, true);
 
+        // Google translation
+        prefs.setDefault(RBEPreferences.TRANSLATION_API_KEY, "");
+        prefs.setDefault(RBEPreferences.TRANSLATION_DEFAULT_LANG, "en");
     }
 
 }

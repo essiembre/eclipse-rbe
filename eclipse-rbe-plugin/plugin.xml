@@ -48,6 +48,12 @@
             category="com.essiembre.eclipse.rbe.ui.preferences.RBEGeneralPrefPage"
             name="%prefs.performance"
             id="com.essiembre.eclipse.rbe.ui.preferences.RBEReportingPrefPage"/>
+      <page
+            category="com.essiembre.eclipse.rbe.ui.preferences.RBEGeneralPrefPage"
+            class="com.essiembre.eclipse.rbe.ui.preferences.RBETranslatePrefPage"
+            id="com.essiembre.eclipse.rbe.ui.preferences.RBETranslatePrefPage"
+            name="%prefs.translate.google">
+      </page>
    </extension>
    
    <extension
