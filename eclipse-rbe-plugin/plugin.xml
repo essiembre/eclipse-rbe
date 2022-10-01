@@ -87,5 +87,23 @@
             The font for the editors on the properties tab
         </description>
     </fontDefinition>
+    <colorDefinition
+          categoryId="com.essiembre.eclipse.rbe.ui.preferences.themeElementCategory"
+          defaultsTo="org.eclipse.ui.workbench.INFORMATION_FOREGROUND"
+          id="com.essiembre.eclipse.rbe.ui.preferences.textColorDefinition"
+          label="Properties editor text color">
+       <description>
+          The text color for the editors on the properties tab
+       </description>
+    </colorDefinition>
+    <colorDefinition
+          categoryId="com.essiembre.eclipse.rbe.ui.preferences.themeElementCategory"
+          defaultsTo="QUALIFIER_COLOR"
+          id="com.essiembre.eclipse.rbe.ui.preferences.textCommentedColorDefinition"
+          label="Properties editor text commented out color">
+       <description>
+          The text color for commented out texts in the editors on the properties tab
+       </description>
+    </colorDefinition>
   </extension>
 </plugin>

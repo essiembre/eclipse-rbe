@@ -52,6 +52,8 @@ public class KeyTreeLabelProvider
     
 //    private Color colorInactive = UIUtils.getSystemColor(SWT.COLOR_GRAY);
     private Color colorCommented = UIUtils.getSystemColor(SWT.COLOR_GRAY);
+    // GRO 30.09.2022 Default color not commented keys
+    private Color colorDefault = null;
 
     /** Group font. */
     private Font keyFont = UIUtils.createFont(SWT.NORMAL);
@@ -134,7 +136,7 @@ public class KeyTreeLabelProvider
             return colorCommented;
         }
 
-        return null;
+        return colorDefault;
     }
 
     @Override
